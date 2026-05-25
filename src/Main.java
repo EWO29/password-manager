@@ -65,7 +65,7 @@ public class Main {
                             System.out.println("Введите логин");
                             String login =  sc.nextLine();
                             System.out.println("Введите пароль");
-                            String password1 =  sc.nextLine();
+                            char[] password1 =  sc.nextLine().toCharArray();
                             PasswordEntry Password1 = new PasswordEntry(service, login, password1);
                             allEntries.addEntry(Password1);
                             System.out.println(Password1);
@@ -100,17 +100,17 @@ public class Main {
                         System.out.println("Для изменения пароля - p, для выхода из меню изменений - e");
                         String changeSelection = sc.nextLine();
                         if (changeSelection.equals("p")){
-                            String newPassword;
+                            char[] newPassword;
                             int newAttempts = 0;
-                            do {
-                                if (newAttempts > 0){
-                                    System.out.println("Пароль не должен быть пустым или иметь меньше 6 символов!");
+                            while (true) {
+                                try{
+                                    newPassword = sc.nextLine().toCharArray();
+                                    allEntries.updatePassword(newPassword, index);
+                                    break;
+                                } catch(IllegalArgumentException e){
+                                    System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
                                 }
-                                System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
-                                newPassword = sc.nextLine();
-                                allEntries.updatePassword(newPassword, index);
-                                newAttempts++;
-                            }while ((!allEntries.get(index).getPassword().equals(newPassword)));
+                            }
                             System.out.println("Пароль успешно изменен");
                         }
                     }

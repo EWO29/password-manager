@@ -17,7 +17,7 @@ public class PasswordStore {
 
     }
 
-    public void updatePassword(String newPassword, int index){
+    public void updatePassword(char[] newPassword, int index){
         if ( index > -1 && index < allEntries.size()){
             allEntries.get(index).setPassword(newPassword);
         } else{

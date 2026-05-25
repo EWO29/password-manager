@@ -1,11 +1,11 @@
 public class PasswordEntry {
     private String service;
     private String login;
-    private String password;
+    private char[] password;
 
     public static int countPasswords = 0;
 
-    public PasswordEntry (String service, String login, String password) {
+    public PasswordEntry (String service, String login, char[] password) {
 
         if (service.isBlank()) {
             throw new IllegalArgumentException("Поле сервис не может быть пустое");
@@ -24,8 +24,8 @@ public class PasswordEntry {
         countPasswords++;
     }
 
-    public void setPassword (String password) {
-        if (password.length() < 6) {
+    public void setPassword (char[] password) {
+        if (password.length < 6) {
             throw new IllegalArgumentException("Пароль должен содержать больше 6 символов");
         } else {
             this.password = password;
@@ -40,7 +40,7 @@ public class PasswordEntry {
         return login;
     }
 
-    public String getPassword(){
+    public char[] getPassword(){
         return password;
     }
 
