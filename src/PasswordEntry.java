@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class PasswordEntry {
     private String service;
     private String login;
@@ -25,10 +27,20 @@ public class PasswordEntry {
     }
 
     public void setPassword (char[] password) {
+
+        if (this.password != null) {
+            Arrays.fill(this.password, '\0');
+
+        }
+
         if (password.length < 6) {
+
             throw new IllegalArgumentException("Пароль должен содержать больше 6 символов");
+
         } else {
-            this.password = password;
+
+            this.password =  Arrays.copyOf(password, password.length);
+
         }
     }
 

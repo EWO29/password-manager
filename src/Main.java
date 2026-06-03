@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
@@ -59,13 +60,14 @@ public class Main {
 
 
                     while (true){
+                        char[] password1 = null;
                         try{
                             System.out.println("Введите название сервиса");
                             String service =  sc.nextLine();
                             System.out.println("Введите логин");
                             String login =  sc.nextLine();
                             System.out.println("Введите пароль");
-                            char[] password1 =  sc.nextLine().toCharArray();
+                            password1 =  sc.nextLine().toCharArray();
                             PasswordEntry Password1 = new PasswordEntry(service, login, password1);
                             allEntries.addEntry(Password1);
                             System.out.println(Password1);
@@ -74,7 +76,13 @@ public class Main {
                             System.out.println("Введите заново сервис, логин и пароль");
                         } catch (RuntimeException e) {
                             System.out.println("Такой сервис уже существует");
+                        }finally{
+                            if (password1 != null){
+                                Arrays.fill(password1, '\0');
+                            }
+
                         }
+
                     }
 
 
@@ -100,7 +108,7 @@ public class Main {
                         System.out.println("Для изменения пароля - p, для выхода из меню изменений - e");
                         String changeSelection = sc.nextLine();
                         if (changeSelection.equals("p")){
-                            char[] newPassword;
+                            char[] newPassword = null;
                             int newAttempts = 0;
                             while (true) {
                                 try{
@@ -109,6 +117,11 @@ public class Main {
                                     break;
                                 } catch(IllegalArgumentException e){
                                     System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
+                                }finally{
+                                    if (newPassword != null){
+                                        Arrays.fill(newPassword, '\0');
+                                    }
+
                                 }
                             }
                             System.out.println("Пароль успешно изменен");
