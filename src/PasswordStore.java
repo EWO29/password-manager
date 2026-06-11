@@ -10,7 +10,7 @@ public class PasswordStore {
     public void addEntry(PasswordEntry newEntry) {
 
         if (allEntries.contains(newEntry)) {
-            throw new RuntimeException("Duplicate entry");
+            throw new DuplicateEntryException("Duplicate entry");
         } else{
             allEntries.add(newEntry);
         }

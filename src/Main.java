@@ -74,7 +74,7 @@ public class Main {
                             break;
                         } catch (IllegalArgumentException e) {
                             System.out.println("Введите заново сервис, логин и пароль");
-                        } catch (RuntimeException e) {
+                        } catch (DuplicateEntryException e) {
                             System.out.println("Такой сервис уже существует");
                         }finally{
                             if (password1 != null){
