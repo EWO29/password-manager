@@ -75,7 +75,7 @@ public class Main {
                         } catch (IllegalArgumentException e) {
                             System.out.println("Введите заново сервис, логин и пароль");
                         } catch (DuplicateEntryException e) {
-                            System.out.println("Такой сервис уже существует");
+                            System.out.println("Такая запись уже существует");
                         }finally{
                             if (password1 != null){
                                 Arrays.fill(password1, '\0');

@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 public class PasswordEntry {
     private String service;
@@ -9,13 +10,13 @@ public class PasswordEntry {
 
     public PasswordEntry (String service, String login, char[] password) {
 
-        if (service.isBlank()) {
+        if (service == null || service.isBlank()) {
             throw new IllegalArgumentException("Поле сервис не может быть пустое");
         } else{
             this.service = service;
         }
 
-        if (login.isBlank()) {
+        if (login == null || login.isBlank()) {
             throw new IllegalArgumentException("Поле логин не может быть пустое");
         }else {
             this.login = login;
@@ -58,17 +59,26 @@ public class PasswordEntry {
 
     @Override
     public boolean equals(Object other){
-        if (getClass() != other.getClass()){
+
+        if (other != null && getClass() == other.getClass()) {
+            PasswordEntry otherEntry = (PasswordEntry) other;
+            return this.service.equals(otherEntry.service) && this.login.equals(otherEntry.login);
+        } else {
             return false;
         }
-        PasswordEntry otherEntry = (PasswordEntry) other;
-        return this.service.equals(otherEntry.service);
     }
 
     @Override
     public String toString(){
 
         return service + " " + login;
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(service, login);
 
     }
 

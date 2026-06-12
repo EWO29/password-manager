@@ -8,8 +8,9 @@ public class PasswordStore {
     }
 
     public void addEntry(PasswordEntry newEntry) {
-
-        if (allEntries.contains(newEntry)) {
+        if (newEntry == null){
+            throw new NullPointerException("Нельзя передавать null");
+        }else if (allEntries.contains(newEntry)) {
             throw new DuplicateEntryException("Duplicate entry");
         } else{
             allEntries.add(newEntry);
