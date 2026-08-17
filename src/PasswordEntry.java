@@ -8,24 +8,45 @@ public class PasswordEntry {
 
     public static int countPasswords = 0;
 
-    public PasswordEntry (String service, String login, char[] password) {
+    public boolean isValid (String entry) {
 
-        if (service == null || service.isBlank()) {
-            throw new IllegalArgumentException("Поле сервис не может быть пустое");
-        } else{
-            this.service = service;
+        if (entry == null || entry.isBlank()){
+            return false;
+        } else {
+            return true;
         }
 
-        if (login == null || login.isBlank()) {
-            throw new IllegalArgumentException("Поле логин не может быть пустое");
-        }else {
+    }
+
+
+    public PasswordEntry (String service, String login, char[] password) {
+
+        if (service == null) {
+            throw new NullPointerException("Service == null");
+        }
+        if (login == null) {
+            throw new NullPointerException("Login == null");
+        }
+
+
+        if (isValid(service)) {
+            this.service = service;
+        } else{
+            throw new IllegalArgumentException("Поле сервис не может быть пустое");
+        }
+
+        if (isValid(login)) {
             this.login = login;
+        }else {
+            throw new IllegalArgumentException("Поле логин не может быть пустое");
         }
 
         setPassword(password);
 
         countPasswords++;
     }
+
+
 
     public void setPassword (char[] password) {
 
@@ -45,6 +66,8 @@ public class PasswordEntry {
         }
     }
 
+
+
     public String getService() {
         return service;
     }
@@ -54,7 +77,7 @@ public class PasswordEntry {
     }
 
     public char[] getPassword(){
-        return password;
+        return Arrays.copyOf(password, password.length);
     }
 
     @Override
