@@ -80,6 +80,10 @@ public class PasswordEntry {
         return Arrays.copyOf(password, password.length);
     }
 
+    public void clearPassword(){
+        Arrays.fill(this.password, '\0');
+    }
+
     @Override
     public boolean equals(Object other){
 

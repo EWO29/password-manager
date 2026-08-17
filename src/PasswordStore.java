@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PasswordStore {
     private ArrayList<PasswordEntry> allEntries;
@@ -47,7 +48,21 @@ public class PasswordStore {
         }
     }
 
+    public boolean removeEntry(PasswordEntry entry){
 
+        if (entry == null){
+            throw new NullPointerException("entry == null");
+        }
+
+        for (PasswordEntry current : allEntries){
+            if (current.equals(entry)){
+                current.clearPassword();
+                allEntries.remove(current);
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
