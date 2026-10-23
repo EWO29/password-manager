@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class PasswordStore {
     private ArrayList<PasswordEntry> allEntries;
@@ -44,7 +44,7 @@ public class PasswordStore {
             return allEntries.get(index);
 
         } else{
-            return null;
+            throw new IllegalArgumentException("Неправильный индекс");
         }
     }
 

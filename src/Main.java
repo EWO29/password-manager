@@ -94,13 +94,24 @@ public class Main {
                     }
 
                 } else if (answer.equals("3")){
-                    for (int i = 0; i < allEntries.size(); i++){
-                        PasswordEntry entry = allEntries.get(i);
-                        System.out.println(i + " " + "Сервис: " + entry);
-                    }
-                    System.out.println("Введите номер записи которую хотите изменить");
+
+
                     int index = -1;
-                    index = sc.nextInt();
+
+                    while (true) {
+                        try{
+                            for (int i = 0; i < allEntries.size(); i++){
+                                PasswordEntry entry = allEntries.get(i);
+                                System.out.println(i + " " + "Сервис: " + entry);
+                            }
+                            System.out.println("Введите номер записи которую хотите изменить");
+                            index = sc.nextInt();
+                            break;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Номер должен состоять только из цифр");
+                            sc.next();
+                        }
+                    }
                     sc.nextLine();
 
                     if ((index > -1) && (index < allEntries.size())) {
@@ -112,6 +123,7 @@ public class Main {
                             int newAttempts = 0;
                             while (true) {
                                 try{
+                                    System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
                                     newPassword = sc.nextLine().toCharArray();
                                     allEntries.updatePassword(newPassword, index);
                                     break;
@@ -126,11 +138,13 @@ public class Main {
                             }
                             System.out.println("Пароль успешно изменен");
                         }
+                    } else {
+                        System.out.println("Неправильный номер записи");
                     }
                 }else if (answer.equals("4")){
                     break;
                 }
-                System.out.println("Добавит новую запись -  1, Посмотреть записи - 2, Изменить записи - 3, Завершить работу программы - 4");
+                System.out.println("Добавить новую запись -  1, Посмотреть записи - 2, Изменить записи - 3, Завершить работу программы - 4");
                 answer = sc.nextLine();
             }
         } else{
