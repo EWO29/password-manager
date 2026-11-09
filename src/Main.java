@@ -18,6 +18,10 @@ public class Main {
         return (password == getValidPassword() && name.equals(getValidUsername()));
     }
 
+    private static String outputMenu() {
+        return "Добавить новую запись -  1, Посмотреть записи - 2, Изменить записи - 3, Удалить запись - 4, Завершить работу программы - e";
+    }
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -52,7 +56,7 @@ public class Main {
 
         if (authorizeUser(name, password)){
             System.out.println("Вы вошли в аккаунт");
-            System.out.println("Для создания записи (1), для просмотра записей (2), для изменения записи (3)");
+            System.out.println(outputMenu());
             String answer = sc.nextLine();
             while (true){
                 if (answer.equals("1")){
@@ -88,63 +92,97 @@ public class Main {
 
 
                 } else if (answer.equals("2")){
-                    ArrayList<PasswordEntry> entries = allEntries.getAll();
-                    for (PasswordEntry entry : entries){
-                        System.out.println(entry);
+                    if (allEntries.size() > 0){
+                        allEntries.outputEntries();
+                    }else {
+                        System.out.println("Записей ещё нет");
                     }
+
 
                 } else if (answer.equals("3")){
+                    if (allEntries.size() > 0){
 
+                        int index = -1;
 
-                    int index = -1;
-
-                    while (true) {
-                        try{
-                            for (int i = 0; i < allEntries.size(); i++){
-                                PasswordEntry entry = allEntries.get(i);
-                                System.out.println(i + " " + "Сервис: " + entry);
+                        while (true) {
+                            try{
+                                allEntries.outputEntries();
+                                System.out.println("Введите номер записи которую хотите изменить");
+                                index = sc.nextInt();
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Номер должен состоять только из цифр");
+                                sc.next();
                             }
-                            System.out.println("Введите номер записи которую хотите изменить");
-                            index = sc.nextInt();
-                            break;
-                        } catch (InputMismatchException e) {
-                            System.out.println("Номер должен состоять только из цифр");
-                            sc.next();
                         }
-                    }
-                    sc.nextLine();
+                        sc.nextLine();
 
-                    if ((index > -1) && (index < allEntries.size())) {
-                        System.out.println(allEntries.get(index));
-                        System.out.println("Для изменения пароля - p, для выхода из меню изменений - e");
-                        String changeSelection = sc.nextLine();
-                        if (changeSelection.equals("p")){
-                            char[] newPassword = null;
-                            int newAttempts = 0;
-                            while (true) {
-                                try{
-                                    System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
-                                    newPassword = sc.nextLine().toCharArray();
-                                    allEntries.updatePassword(newPassword, index);
-                                    break;
-                                } catch(IllegalArgumentException e){
-                                    System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
-                                }finally{
-                                    if (newPassword != null){
-                                        Arrays.fill(newPassword, '\0');
+                        if ((index > -1) && (index < allEntries.size())) {
+                            System.out.println(allEntries.get(index));
+                            System.out.println("Для изменения пароля - p, для выхода из меню изменений - e");
+                            String changeSelection = sc.nextLine();
+                            if (changeSelection.equals("p")){
+                                char[] newPassword = null;
+                                int newAttempts = 0;
+                                while (true) {
+                                    try{
+                                        System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
+                                        newPassword = sc.nextLine().toCharArray();
+                                        allEntries.updatePassword(newPassword, index);
+                                        break;
+                                    } catch(IllegalArgumentException e){
+                                        System.out.println("Введите новый пароль (пароль должен содержать больше 6 цифр): ");
+                                    }finally{
+                                        if (newPassword != null){
+                                            Arrays.fill(newPassword, '\0');
+                                        }
+
                                     }
-
                                 }
+                                System.out.println("Пароль успешно изменен");
                             }
-                            System.out.println("Пароль успешно изменен");
+                        } else {
+                            System.out.println("Неправильный номер записи");
                         }
                     } else {
-                        System.out.println("Неправильный номер записи");
+                        System.out.println("Невозможно изменить запись. Записей нет");
                     }
+
                 }else if (answer.equals("4")){
+                    if (allEntries.size() > 0){
+
+                        int index = -1;
+
+                        while (true) {
+                            try {
+                                allEntries.outputEntries();
+                                System.out.println("Введите номер записи которую хотите удалить");
+                                index = sc.nextInt();
+                                if (index > -1 & index < allEntries.size()){
+                                    if(allEntries.removeEntry(allEntries.get(index))) {
+                                        System.out.println("Удаление прошло успешно!");
+                                    }else {
+                                        System.out.println("Произошла ошибка");
+                                    }
+                                    break;
+                                }else {
+                                    System.out.println("Такого индекса не существует");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Номер должен состоять только из цифр");
+                                sc.next();
+                            }
+                        }
+                        sc.nextLine();
+                        allEntries.outputEntries();
+                    } else{
+                        System.out.println("Удаление невозможно. Записей нету");
+                    }
+
+                }else if (answer.equals("e")){
                     break;
                 }
-                System.out.println("Добавить новую запись -  1, Посмотреть записи - 2, Изменить записи - 3, Завершить работу программы - 4");
+                System.out.println(outputMenu());
                 answer = sc.nextLine();
             }
         } else{

@@ -64,6 +64,12 @@ public class PasswordStore {
         return false;
     }
 
+    public void outputEntries(){
+        for (int i = 0; i < allEntries.size(); i++) {
+            PasswordEntry entry = allEntries.get(i);
+            System.out.println(i + " " + "Сервис: " + entry);
+        }
+    }
 
 
 
